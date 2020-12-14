@@ -2,6 +2,7 @@ let body = document.querySelector("body");
 let navbar = document.querySelector(".navbar");
 let navAtags = document.querySelectorAll(".navbar a");
 let footer = document.querySelector("footer");
+let submit = document.querySelector("input[type = submit]");
 let themesContainer = document.querySelector(".theme-container");
 
 let currentTheme = localStorage.getItem("theme");
@@ -13,6 +14,7 @@ function changeThemeColor(color) {
   let defaultStyle = "background: " + color + "; color : white;";
   navbar.style.cssText = defaultStyle;
   footer.style.cssText = defaultStyle;
+  submit.style.cssText = defaultStyle;
   navAtags.forEach((a) => {
     a.style.cssText = "color : white";
   });
