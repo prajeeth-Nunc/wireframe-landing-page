@@ -12,8 +12,8 @@
   <link rel="stylesheet" href="styles.css">
   <title>Assignment-1</title>
   <style>
-    .main-vid-title {
-      font-size: 30px;
+    video[poster] {
+      object-fit: cover;
     }
   </style>
 </head>
@@ -49,10 +49,12 @@
           <i class="fa fa-user-circle fa-5x text-secondary mx-3"></i>
           <div>
             <p><strong>John Hopkins</strong></p>
-            <div>Great Car Dealer Inc,</div>
-            <div>Market Street 5th Ave</div>
-            <div>Sugar Land,TX,43089</div>
-            <div>535-221-6678</div>
+            <p class="text-secondary">
+              Great Car Dealer Inc,<br>
+              Market Street 5th Ave<br>
+              Sugar Land,TX,43089<br>
+              535-221-6678
+            </p>
           </div>
         </div>
       </div>
@@ -60,73 +62,137 @@
       <!-- Social Connect START -->
       <div class="col-xl-4 col-md-6">
         <div class="flex-center mt-3 text-center">
-          <i class="fab fa-facebook-f text-primary cursor-pointer mr-md-5 mr-3 fa-2x"></i>
-          <i class="fab fa-twitter text-primary cursor-pointer mr-md-5 mr-3 fa-2x"></i>
-          <i class="fab fa-instagram text-danger cursor-pointer mr-md-5 mr-3 fa-2x"></i>
-          <i class="fab fa-youtube text-danger cursor-pointer fa-2x"></i>
+          <i class="fab fa-facebook-f text-primary pointer mr-md-5 mr-3 fa-2x"></i>
+          <i class="fab fa-twitter text-primary pointer mr-md-5 mr-3 fa-2x"></i>
+          <i class="fab fa-instagram text-danger pointer mr-md-5 mr-3 fa-2x"></i>
+          <i class="fab fa-youtube text-danger pointer fa-2x"></i>
           <p class="py-3 m-0">CONNECT WITH US</p>
         </div>
       </div>
       <!-- Social Connect END -->
     </div>
     <div class="row mt-3">
-      <!-- Video Container START -->
+      <!-- Main Video Container START -->
       <div class="col-xl-8 col-md-7">
-        <div class="main-video">
-          <video src="videos/The_Seed.mp4" width="100%" height="auto"></video>
-          <i class="fa fa-play-circle fa-5x play-btn cursor-pointer" style="color: #aaa;"></i>
-          <!-- <div class="controls">
-          </div> -->
+        <div class="main-video border border-dark">
+          <video src="videos/Seven By M.S Dhoni.mp4" poster="images/seven_by_MSD.png" width="100%"
+            height="auto"></video>
+          <i class="fa fa-play-circle fa-5x play-btn pointer" style="color: #aaa;"></i>
         </div>
-        <div class="main-vid-title my-3">The Seed</div>
-        <div class="main-vid-des mb-3">Once the seed of faith takes root, it cannot be blown away, even by the strongest
-          wind
-          – Now that’s a blessing.</div>
+        <!-- Video Controls START -->
+        <div class="controls">
+        </div>
+        <!-- Video Controls END -->
+        <div class="main-vid-title my-3">One Day At A Time</div>
+        <div class="main-vid-des mb-3 text-secondary">One Day At A Time</div>
       </div>
-      <!-- Video Container END -->
+      <!-- Main Video Container END -->
       <!-- Form START -->
       <div class="col-xl-4 col-md-5">
-        <div class="border p-3 ">
+        <div class="border border-dark p-3 ">
           <form>
             <div class="form-group">
-              <input type="text" class="form-control" id="firstname" placeholder="First name">
+              <input type="text" class="form-control border border-dark" id="firstname" placeholder="First name">
+              <samll id="f-name"></samll>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="lastname" placeholder="Last name">
+              <input type="text" class="form-control border border-dark" id="lastname" placeholder="Last name">
+              <samll id="l-name"></samll>
             </div>
             <div class="form-group">
-              <input type="email" class="form-control" id="email" placeholder="Email Address">
+              <input type="email" class="form-control border border-dark" id="email" placeholder="Email Address">
+              <samll id="email"></samll>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="phone" placeholder="Phone Number">
+              <input type="text" class="form-control border border-dark" id="phone" placeholder="Phone Number">
+              <samll id="phno"></samll>
             </div>
             <div class="form-group">
-              <textarea type="text" class="form-control" id="" placeholder="Comments"></textarea>
+              <textarea type="text" class="form-control border border-dark" id="comments"
+                placeholder="Comments"></textarea>
             </div>
-            <input type="submit" class="btn btn-block btn-primary mt-3" value="Submit">
-            <small>Read out privacy policy before submitting the form</small>
+            <input type="submit" class="btn btn-block text-white mt-3" style="background:orangered;" value="Submit">
+            <small class="text-secondary">Read out privacy policy before submitting the form</small>
           </form>
         </div>
 
       </div>
       <!-- Form END -->
     </div>
-    <div class="row">
+    <div class="row mt-3">
       <!-- Carousel Video Container START -->
-      <div class="carousel-container">
-
+      <div class="col-xl-12 col-md-12">
+        <div class="carousel-container">
+          <div class="Poster-container">
+            <div class="mr-3">
+              <div class="poster pointer">
+                <img src="images/seven_by_MSD.png" alt="poster1">
+                <i class="fa fa-play-circle fa-2x play-btn pointer" style="color: #aaa;"></i>
+              </div>
+              <!-- <i class="fa fa-play-circle fa-2x play-btn" style="color: #aaa;"></i> -->
+              <div class="main-vid-title my-3">One Day At A Time</div>
+              <div class="main-vid-des mb-3 text-secondary">One Day At A Time</div>
+            </div>
+            <div class="mr-3">
+              <div class="poster pointer">
+                <img src="images/the_seed.png" alt="poster1">
+                <i class="fa fa-play-circle fa-2x play-btn pointer" style="color: #aaa;"></i>
+              </div>
+              <div class="main-vid-title my-3">The Seed</div>
+              <div class="main-vid-des mb-3 text-secondary">Once the seed of faith takes root, it cannot be blown away,
+                even by the strongest wind – Now that’s a blessing.</div>
+            </div>
+            <div class="mr-3">
+              <div class="poster pointer">
+                <img src="images/the_seed.png" alt="poster1">
+                <i class="fa fa-play-circle fa-2x play-btn pointer" style="color: #aaa;"></i>
+              </div>
+              <div class="main-vid-title my-3">The Seed
+      
+              </div>
+              <div class="main-vid-des mb-3 text-secondary">Once the seed of faith takes root, it cannot be blown away,
+                even by the strongest wind – Now that’s a blessing.</div>
+            </div>
+            <div class="mr-3">
+              <div class="poster pointer">
+                <img src="images/the_seed.png" alt="poster1">
+                <i class="fa fa-play-circle fa-2x play-btn pointer" style="color: #aaa;"></i>
+              </div>
+              <div class="main-vid-title my-3">The Seed</div>
+              <div class="main-vid-des mb-3 text-secondary">Once the seed of faith takes root, it cannot be blown away,
+                even by the strongest wind – Now that’s a blessing.</div>
+            </div>
+            <div class="">
+              <div class="poster pointer">
+                <img src="images/the_seed.png" alt="poster1">
+                <i class="fa fa-play-circle fa-2x play-btn pointer" style="color: #aaa;"></i>
+              </div>
+              <div class="main-vid-title my-3">The Seed</div>
+              <div class="main-vid-des mb-3 text-secondary">Once the seed of faith takes root, it cannot be blown away,
+                even by the strongest wind – Now that’s a blessing.</div>
+            </div>
+          </div>
+          <div class="carousel-ctrls">
+            <i class="fa fa-chevron-circle-left left fa-2x pointer"></i>
+            <i class="fa fa-chevron-circle-right right fa-2x pointer"></i>
+          </div>
+        </div>
       </div>
       <!-- Carousel Video Container START -->
     </div>
   </div>
   <!-- Footer START -->
   <footer>
-
+    <div class="bg-secondary mt-5 p-3">
+      <div class="text-center">
+        <span class="text-light">Copyright 2020. All rights reserved. Terms of Use Privacy policy</span>
+      </div>
+    </div>
   </footer>
   <!-- Footer END -->
   <!-- Main Container END -->
 
-
+  <script src="index.js"></script>
 </body>
 
 </html>

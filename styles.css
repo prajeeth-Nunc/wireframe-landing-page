@@ -2,28 +2,92 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+video {
+    border: none;
+    outline: none;
+}
 .flex-container {
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
 
+.y-center{
+    vertical-align: middle;
+}
+
+.wrap{
+    flex-wrap: wrap;
+}
+
 .pull-right {
     float: right;
 }
 
-.cursor-pointer {
+.pointer {
     cursor: pointer;
 }
 
-.main-video {
+.main-video,.poster {
     display: flex;
     position: relative;
 }
+
 
 .play-btn {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.main-vid-title {
+    font-size: 30px;
+}
+.carousel-container {
+    position: relative;
+}
+
+.Poster-container{
+    position: relative;
+    display: flex;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+img {
+    width: 300px;
+    height: 150px;
+    object-fit: cover;
+}
+
+
+img:hover{
+    opacity: .9;
+}
+
+.carousel-ctrls .left,
+.carousel-ctrls .right {
+    position: absolute;
+}
+
+.carousel-ctrls .left {
+    top: 22%;
+    left: -1.5%;
+    transform: translate(-1.5%, -22%);
+}
+
+.carousel-ctrls .right {
+    top: 22%;
+    right: -1.5%;
+    transform: translate(-1.5%, -22%);
+}
+
+.videos::-webkit-scrollbar {
+    display: none;
 }
