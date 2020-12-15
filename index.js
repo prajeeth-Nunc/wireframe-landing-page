@@ -5,6 +5,8 @@ let footer = document.querySelector("footer");
 let submit = document.querySelector("input[type = submit]");
 let themesContainer = document.querySelector(".theme-container");
 let posterContainer = document.querySelector(".Poster-container");
+let form = document.querySelector("form");
+let validators = ["", null, undefined];
 
 let currentTheme = localStorage.getItem("theme");
 if (currentTheme) changeThemeColor(currentTheme);
@@ -73,3 +75,55 @@ fetch("videoInfo.json")
       posterContainer.appendChild(divFlexItem);
     });
   });
+
+const exceptionMsg = {
+  firstname: "Please Enter First Name",
+  lastname: "Please Enter Last Name",
+  email: "Please Enter Email Address",
+  phno: "Please Enter Phone Number",
+};
+
+form.addEventListener("submit", validate);
+
+function validate(e) {
+  e.preventDefault();
+  let expMsgs = document.querySelectorAll("small");
+  expMsgs.forEach((element) => {
+    element.textContent = "";
+  });
+
+  let small = document.createElement("small");
+  small.setAttribute("class", "text-danger");
+
+  let firstnameInp = form.querySelector("input#firstname");
+  let lastnameInp = form.querySelector("input#lastname");
+  let emailInp = form.querySelector("input#email");
+  let phoneInp = form.querySelector("input#phone");
+  let commentsInp = form.querySelector("textarea#comments");
+
+  let fstname = firstnameInp.value;
+  let lstname = lastnameInp.value;
+  let email = emailInp.value;
+  let phno = phoneInp.value;
+  let cmts = commentsInp.value;
+
+  if (validators.includes(fstname)) {
+    formgroup = firstnameInp.parentElement;
+    small.textContent = exceptionMsg.firstname;
+    formgroup.appendChild(small);
+  } else if (validators.includes(lstname)) {
+    formgroup = lastnameInp.parentElement;
+    small.textContent = exceptionMsg.lastname;
+    formgroup.appendChild(small);
+  } else if (validators.includes(email)) {
+    formgroup = emailInp.parentElement;
+    small.textContent = exceptionMsg.email;
+    formgroup.appendChild(small);
+  } else if (validators.includes(phno)) {
+    formgroup = phoneInp.parentElement;
+    small.textContent = exceptionMsg.phno;
+    formgroup.appendChild(small);
+  } else {
+    console.log("Submit form");
+  }
+}
