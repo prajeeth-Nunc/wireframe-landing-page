@@ -1,6 +1,6 @@
 body {
     font-family: 'Roboto', sans-serif;
-    background: rgba(255,255,255,.1);
+    background: rgba(255,255,255,1);
 }
 
 video {
@@ -41,12 +41,13 @@ video {
     transform: translate(-50%, -50%);
 }
 
-.main-vid-title {
+.main-vid-title,.vid-title {
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 500;
 }
-.main-vid-des{
-    font-size: 1rem;
+
+.main-vid-des,.vid-des{
+    font-size: .8rem;
 }
 
 .carousel-container {
@@ -66,8 +67,8 @@ video {
 }
 
 img {
-    width: 300px;
-    height: 150px;
+    width: 400px;
+    height: 200px;
     object-fit: cover;
     border-radius: 3px;
 }
@@ -118,8 +119,8 @@ video[poster]:hover {
 
 @media (max-width:568px) {
     img {
-        width: 180px;
-        height: 100px;
+        width: 200px;
+        height: 120px;
     }
     .carousel-ctrls .left {
         top: 14%;
@@ -149,19 +150,18 @@ input[type="submit"]{
 } */
 
 form{
-    box-shadow: -1px 1px 4px 1px rgba(0,0,0,.2);
     position: relative;
 }
 
 form::before{
     content: "";
     position: absolute;
-    top: 0;
+    bottom: 1px;
     right: 0;
-    width: 35px;
+    width: 50%;
     height: 50%;
     background: rgba(0, 0, 0, .2);
     box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, .2);
-    transform: translateX(3px) skew(-3deg, 0deg);
+    transform: translateX(3px) skew(3deg, 0deg);
     z-index: -1;
 }
