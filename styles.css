@@ -4,7 +4,7 @@ body {
 }
 
 video {
-    border: none;
+    border: 1px solid rgba(0,0,0,.2);
     outline: none;
 }
 .flex-container {
@@ -91,18 +91,26 @@ img:hover{
 .carousel-ctrls .left,
 .carousel-ctrls .right {
     position: absolute;
+    background: black;
+    color: white;
 }
+/* 
+.carousel-ctrls .left:hover,
+.carousel-ctrls .right:hover {
+    background: white;
+    color : rgba(0, 0, 0, 0.5);
+} */
 
 .carousel-ctrls .left {
-    top: 22%;
+    top: 25%;
     left: -1.5%;
-    transform: translate(-1.5%, -22%);
+    transform: translate(-1.5%, -25%);
 }
 
 .carousel-ctrls .right {
-    top: 22%;
+    top: 25%;
     right: -1.5%;
-    transform: translate(-1.5%, -22%);
+    transform: translate(-1.5%, -25%);
 }
 
 .videos::-webkit-scrollbar {

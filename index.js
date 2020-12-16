@@ -70,13 +70,18 @@ function renderMainVideo(element) {
     height: "auto",
   };
   setAttributes(video, attr);
-  let iTag = document.createElement("i");
-  iTag.setAttribute(
-    "class",
-    "fa fa-play-circle fa-4x play-btn pointer text-light"
-  );
-  mainVideo.appendChild(video);
-  mainVideo.appendChild(iTag);
+  mainVideo.insertBefore(video, mainVideo.childNodes[0]);
+  // mainVideo.appendChild(video);
+  let iTag = mainVideo.querySelector("i");
+  if(iTag){
+  }else{
+    let iTag = document.createElement("i");
+    iTag.setAttribute(
+      "class",
+      "fa fa-play-circle fa-4x play-btn pointer text-light"
+    );
+    mainVideo.appendChild(iTag);
+  }
   mainVTitle.textContent = element.Title;
   mainVDes.textContent = element.Description;
 }
@@ -121,6 +126,7 @@ function videoRender(id = null) {
     .then((data) => {
       let count = data.lenth;
       id = id === null ? 1 : id;
+      posterContainer.innerHTML = ""
       data.forEach((element) => {
         if (element.id === id) {
           renderMainVideo(element);
@@ -190,9 +196,7 @@ right.addEventListener("click", scrollLeft);
 
 function scrollRight() {
   posterContainer.scrollLeft -= 600;
-  console.log("clicked left");
 }
 function scrollLeft() {
   posterContainer.scrollLeft += 600;
-  console.log("clicked right");
 }
