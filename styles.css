@@ -1,11 +1,12 @@
 body {
     font-family: 'Roboto', sans-serif;
-    background: rgba(255,255,255,1);
+    background:rgba(255, 255, 255, .8);
 }
 
 video {
-    border: 1px solid rgba(0,0,0,.2);
+    /* border: 2px solid rgba(0,0,0,.7); */
     outline: none;
+    border-radius: 3px;
 }
 .flex-container {
     display: flex;
@@ -30,7 +31,7 @@ video {
 }
 
 .main-video,.poster {
-    display: flex;
+    display: flex; 
     position: relative;
 }
 
@@ -39,6 +40,9 @@ video {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background: white;
+    border-radius:50rem!important;
+    color:dodgerblue;
 }
 
 .main-vid-title,.vid-title {
@@ -60,6 +64,7 @@ video {
     overflow: scroll;
     scroll-behavior: smooth;
     scrollbar-width: none;
+    transition: all 2s;
 }
 
 ::-webkit-scrollbar {
@@ -71,12 +76,12 @@ img {
     height: 200px;
     object-fit: cover;
     border-radius: 3px;
+    /* border: 1px solid black; */
 }
 
 .theme-container{
     display: flex;
     justify-content: flex-end;
-    transition: all 2s ;
 }
 
 .round{
@@ -91,15 +96,15 @@ img:hover{
 .carousel-ctrls .left,
 .carousel-ctrls .right {
     position: absolute;
-    background: black;
-    color: white;
+    background: white;
+    color: black;
 }
-/* 
+
 .carousel-ctrls .left:hover,
 .carousel-ctrls .right:hover {
     background: white;
-    color : rgba(0, 0, 0, 0.5);
-} */
+    color : rgba(0, 0, 0, 0.7);
+}
 
 .carousel-ctrls .left {
     top: 25%;
@@ -159,6 +164,7 @@ input[type="submit"]{
 
 form{
     position: relative;
+    /* border: 1px solid rgba(0, 0, 0, .3); */
 }
 
 form::before{

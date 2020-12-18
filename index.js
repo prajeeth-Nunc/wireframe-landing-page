@@ -16,10 +16,14 @@ let right = body.querySelector(".carousel-ctrls .right");
 
 let currentTheme = localStorage.getItem("theme");
 if (currentTheme) changeThemeColor(currentTheme);
-else changeThemeColor("#6c757d");
+else changeThemeColor("dodgerblue");
 
 function changeThemeColor(color) {
   localStorage.setItem("theme", color);
+  let iTag = mainVideo.querySelector("i");
+  if (iTag) {
+    iTag.style.cssText = "color: " + color;
+  }
   let defaultStyle = "background: " + color + "; color : white;";
   navbar.style.cssText = defaultStyle;
   footer.style.cssText = defaultStyle;
@@ -38,12 +42,12 @@ fetch("themes.json")
   .then((data) => {
     data.forEach((element) => {
       aTag = document.createElement("a");
-      aTag.setAttribute("class", element.class);
-      aTag.setAttribute("id", element.id);
-      aTag.setAttribute(
-        "onclick",
-        "changeThemeColor('" + element.bgcolor + "')"
-      );
+      let attr = {
+        class: element.class,
+        id: element.id,
+        onclick: "changeThemeColor('" + element.bgcolor + "')",
+      };
+      setAttributes(aTag, attr);
       aTag.style.cssText =
         "width: 20px;height: 20px;background: " + element.bgcolor;
       themesContainer.appendChild(aTag);
@@ -58,35 +62,31 @@ function setAttributes(tag, attrbs) {
 
 function renderMainVideo(element) {
   let video = mainVideo.querySelector("video");
-  console.log(video);
   if (video) {
   } else {
     video = document.createElement("video");
   }
   let attr = {
+    id: element.id,
     src: element.Video,
     poster: element.Poster,
     width: "100%",
-    height: "auto",
   };
   setAttributes(video, attr);
   mainVideo.insertBefore(video, mainVideo.childNodes[0]);
-  // mainVideo.appendChild(video);
   let iTag = mainVideo.querySelector("i");
-  if(iTag){
-  }else{
+  if (iTag) {
+  } else {
     let iTag = document.createElement("i");
-    iTag.setAttribute(
-      "class",
-      "fa fa-play-circle fa-4x play-btn pointer text-light"
-    );
+    iTag.setAttribute("class", "fa fa-play-circle fa-4x play-btn pointer");
+    iTag.style.cssText = "color: " + currentTheme;
     mainVideo.appendChild(iTag);
   }
   mainVTitle.textContent = element.Title;
   mainVDes.textContent = element.Description;
 }
 
-function renderCarouselImages(element, count) {
+function renderCarouselImages(element, count, iTag, divTitle, divDes) {
   let divFlexItem = document.createElement("div");
   if (parseInt(element.id) !== count) {
     divFlexItem.setAttribute("class", "mr-3");
@@ -100,18 +100,10 @@ function renderCarouselImages(element, count) {
     alt: element.Title,
     onclick: "videoRender(" + element.id + ")",
   };
-
   setAttributes(img, attr);
-  let iTag = document.createElement("i");
-  iTag.setAttribute(
-    "class",
-    "fa fa-play-circle fa-2x play-btn pointer text-info"
-  );
-  let divTitle = document.createElement("div");
-  divTitle.setAttribute("class", "vid-title my-3 theme");
+  iTag.style.cssText = "color: " + currentTheme;
   divTitle.textContent = element.Title;
-  let divDes = document.createElement("div");
-  divDes.setAttribute("class", "vid-des mb-3 text-secondary");
+
   divDes.textContent = element.Description;
   divPoster.innerHTML += img.outerHTML + iTag.outerHTML;
   divFlexItem.innerHTML +=
@@ -126,19 +118,49 @@ function videoRender(id = null) {
     .then((data) => {
       let count = data.lenth;
       id = id === null ? 1 : id;
-      posterContainer.innerHTML = ""
-      data.forEach((element) => {
-        if (element.id === id) {
-          renderMainVideo(element);
+      posterContainer.innerHTML = "";
+      let iTag = document.createElement("i");
+      iTag.setAttribute("class", "fa fa-play-circle fa-2x play-btn pointer");
+      let divTitle = document.createElement("div");
+      divTitle.setAttribute("class", "vid-title my-3 theme");
+      let divDes = document.createElement("div");
+      divDes.setAttribute("class", "vid-des mb-3 text-secondary");
+      let video = mainVideo.querySelector("video");
+
+      if (video) {
+        const videoId = video.id;
+        let prevVID = data[videoId - 1];
+        data.splice(id - 1, 0, prevVID);
+        if (id - 1 < videoId) {
+          data.splice(videoId, 1);
         } else {
-          renderCarouselImages(element, count);
+          data.splice(videoId - 1, 1);
         }
-      });
+        data.forEach((element) => {
+          if (element.id === id) {
+            renderMainVideo(element);
+          } else {
+            renderCarouselImages(element, count, iTag, divTitle, divDes);
+          }
+        });
+      } else {
+        let mainVID = data.filter((vid) => {
+          return vid.id == id;
+        });
+        data.forEach((element) => {
+          if (element.id === id) {
+            renderMainVideo(mainVID[0]);
+          } else {
+            renderCarouselImages(element, count, iTag, divTitle, divDes);
+          }
+        });
+      }
     });
 }
 
 videoRender();
 
+// Form
 const exceptionMsg = {
   firstname: "Please Enter First Name",
   lastname: "Please Enter Last Name",
@@ -190,6 +212,8 @@ function validate(e) {
     console.log("Submit form");
   }
 }
+
+// Carousel images
 
 left.addEventListener("click", scrollRight);
 right.addEventListener("click", scrollLeft);
