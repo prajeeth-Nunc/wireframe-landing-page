@@ -8,6 +8,7 @@ video {
     outline: none;
     border-radius: 3px;
 }
+
 .flex-container {
     display: flex;
     justify-content: flex-start;
@@ -33,6 +34,7 @@ video {
 .main-video,.poster {
     display: flex; 
     position: relative;
+    overflow: hidden;
 }
 
 .play-btn {
@@ -52,6 +54,39 @@ video {
 
 .main-vid-des,.vid-des{
     font-size: .8rem;
+}
+
+.controls{
+    /* display: none; */
+    overflow: hidden;
+    /* visibility: hidden; */
+    position : absolute;
+    bottom: -38px;
+    left: 0;
+    width: 100%;
+    background:dodgerblue;
+    opacity: 0.7;
+    transition: all .5s;
+}
+
+.progress-bar{
+    position: relative;
+    height: 10px;
+    width: 100%;
+    background: rgba(0,0,0,0.9);
+}
+
+.progress{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30%;
+    background: red;
+}
+
+.ctrls-btns{
+    display: flex;
+    justify-content: flex-start;
 }
 
 .carousel-container {
@@ -126,9 +161,9 @@ video[poster] {
     object-fit: cover;
 }
 
-video[poster]:hover {
+/* video[poster]:hover {
     opacity: 0.9;
-}
+} */
 
 @media (max-width:568px) {
     img {

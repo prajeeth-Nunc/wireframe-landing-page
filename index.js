@@ -13,6 +13,7 @@ let mainVTitle = body.querySelector(".main-vid-title");
 let mainVDes = body.querySelector(".main-vid-des");
 let left = body.querySelector(".carousel-ctrls .left");
 let right = body.querySelector(".carousel-ctrls .right");
+let controls = body.querySelector(".controls");
 
 let currentTheme = localStorage.getItem("theme");
 if (currentTheme) changeThemeColor(currentTheme);
@@ -60,6 +61,19 @@ function setAttributes(tag, attrbs) {
   }
 }
 
+function ShowControlBar() {
+  ;
+  controls.style.cssText = "bottom : 0px;visibility:visible";
+}
+
+function HideControlBar(){
+  controls.style.cssText = "bottom : -38px;";
+}
+
+function PlayVid(video){
+  video.play();
+}
+
 function renderMainVideo(element) {
   let video = mainVideo.querySelector("video");
   if (video) {
@@ -71,17 +85,14 @@ function renderMainVideo(element) {
     src: element.Video,
     poster: element.Poster,
     width: "100%",
+    onmouseover: "ShowControlBar()",
+    onmouseout: "HideControlBar()",
   };
   setAttributes(video, attr);
   mainVideo.insertBefore(video, mainVideo.childNodes[0]);
   let iTag = mainVideo.querySelector("i");
-  if (iTag) {
-  } else {
-    let iTag = document.createElement("i");
-    iTag.setAttribute("class", "fa fa-play-circle fa-4x play-btn pointer");
-    iTag.style.cssText = "color: " + currentTheme;
-    mainVideo.appendChild(iTag);
-  }
+  iTag.setAttribute("onclick", "PlayVid(" + video + ")");
+  iTag.style.cssText = "color: " + currentTheme;
   mainVTitle.textContent = element.Title;
   mainVDes.textContent = element.Description;
 }
