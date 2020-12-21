@@ -88,6 +88,12 @@ video {
     transition: all .8s ease;
 }
 
+.ctrl-pause-play:hover,.fa-expand:hover {
+    transform: scale(1.2);
+}
+.fa-compress:hover {
+    transform: scale(0.9);
+}
 
 .carousel-container {
     position: relative;

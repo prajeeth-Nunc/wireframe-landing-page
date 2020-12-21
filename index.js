@@ -20,7 +20,9 @@ let volumeCtrl = body.querySelector(".ctrl-vol");
 let ScreenCtrl = body.querySelector(".ctrl-fscreen");
 let currentTime = body.querySelector(".cur-time");
 let vidDuration = body.querySelector(".duration");
-let progress = body.querySelector('.progress');
+let progress = body.querySelector(".progress");
+let progressBar = body.querySelector(".progress-bar");
+let playPause = document.querySelector(".ctrl-pause-play");
 
 localStorage.setItem("mainVidStatus", 0);
 
@@ -76,20 +78,31 @@ function handleControlBar(flag) {
     flag === 1 ? "bottom : 0px;display:block;" : "bottom : -40px;";
 }
 
-function handleProgress(){
+function getTime(time) {
+  let minutes = parseInt(Math.round(time) / 60, 10);
+  let seconds = Math.round(time % 60).toString();
+  seconds =
+    seconds.length === 1 ? "0" + seconds : seconds === 60 ? "00" : seconds;
+  return minutes + ":" + seconds;
+}
+
+function handleProgress() {
   setInterval(() => {
-    let minutes = parseInt(Math.ceil(video.currentTime) / 60, 10);
-    let seconds = Math.round(video.currentTime % 60).toString();
-    seconds = seconds.length === 1? "0"+seconds : seconds === 60? "00": seconds;
-    currentTime.textContent =
-      minutes + ":" + seconds;
-    progress.style.width = (video.currentTime/video.duration) * 100 + "%";
-    // console.log(Math.round(video.currentTime));
+    currentTime.textContent = getTime(video.currentTime);
+    progress.style.width = Math.round(video.currentTime / video.duration * 100) + "%";
   }, 1000);
-};
+}
+
+progressBar.addEventListener("click", handlePlayFrmHere);
+
+function handlePlayFrmHere(e) {
+  let position = Math.round(e.offsetX/progressBar.clientWidth * 100);
+  console.log(position);
+  video.currentTime = (video.duration * position) / 100;
+  progress.style.width = position + "%";
+}
 
 function PlayVid() {
-  let playPause = document.querySelector(".ctrl-pause-play");
   let flag = parseInt(localStorage.getItem("mainVidStatus"));
   if (flag === 1) {
     localStorage.setItem("mainVidStatus", 0);
@@ -122,6 +135,39 @@ function ctrlVolume() {
   }
 }
 
+ScreenCtrl.addEventListener("click", handleFullScreenVid);
+
+function handleFullScreenVid() {
+  let currClasses = Array.from(ScreenCtrl.classList);
+  if (currClasses.includes("fa-expand")) {
+    if (mainVideo.requestFullscreen) {
+      mainVideo.requestFullscreen();
+    } else if (mainVideo.webkitRequestFullscreen) {
+      mainVideo.webkitRequestFullscreen();
+    } else if (mainVideo.msRequestFullscreen) {
+      mainVideo.msRequestFullscreen();
+    }
+    ScreenCtrl.classList.remove("fa-expand");
+    ScreenCtrl.classList.add("fa-compress");
+  } else if (currClasses.includes("fa-compress")) {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+    ScreenCtrl.classList.remove("fa-compress");
+    ScreenCtrl.classList.add("fa-expand");
+  }
+}
+
+function handleVidFinish() {
+  console.log("video finished");
+  playPause.classList.remove("fa-pause");
+  playPause.classList.add("fa-play");
+}
+
 function renderMainVideo(element) {
   if (video) {
   } else {
@@ -133,7 +179,8 @@ function renderMainVideo(element) {
     poster: element.Poster,
     width: "100%",
     onclick: "PlayVid()",
-    onplaying:"handleProgress()",
+    onplaying: "handleProgress()",
+    onended: "handleVidFinish()",
   };
   setAttributes(video, attr);
   attr = {
@@ -147,11 +194,11 @@ function renderMainVideo(element) {
   PlayIcon.style.cssText = "color: " + currentTheme;
   mainVTitle.textContent = element.Title;
   mainVDes.textContent = element.Description;
-  video.onloadedmetadata = ()=>{
+  video.onloadedmetadata = () => {
     let minutes = parseInt(video.duration / 60, 10);
     let seconds = Math.round(video.duration % 60);
     vidDuration.textContent = minutes + ":" + seconds;
-  }
+  };
 }
 
 function renderCarouselImages(element, count, iTag, divTitle, divDes) {
@@ -181,6 +228,7 @@ function renderCarouselImages(element, count, iTag, divTitle, divDes) {
 
 // Video
 function videoRender(id = null) {
+  localStorage.setItem("mainVidStatus", 0);
   fetch("videoInfo.json")
     .then((res) => res.json())
     .then((data) => {
