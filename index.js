@@ -17,7 +17,10 @@ let video = mainVideo.querySelector("video");
 let PlayIcon = mainVideo.querySelector("i");
 let controls = body.querySelector(".controls");
 let volumeCtrl = body.querySelector(".ctrl-vol");
-let Vidtimer = body.querySelector(".vid-timer");
+let ScreenCtrl = body.querySelector(".ctrl-fscreen");
+let currentTime = body.querySelector(".cur-time");
+let vidDuration = body.querySelector(".duration");
+let progress = body.querySelector('.progress');
 
 localStorage.setItem("mainVidStatus", 0);
 
@@ -27,14 +30,15 @@ else changeThemeColor("dodgerblue");
 
 function changeThemeColor(color) {
   localStorage.setItem("theme", color);
-  let iTag = mainVideo.querySelector("i");
-  if (iTag) {
-    iTag.style.cssText = "color: " + color;
-  }
+  // let iTag = mainVideo.querySelector("i");
+  // if (iTag) {
+  //   iTag.style.cssText = "color: " + color;
+  // }
   let defaultStyle = "background: " + color + "; color : white;";
   navbar.style.cssText = defaultStyle;
   footer.style.cssText = defaultStyle;
   submit.style.cssText = defaultStyle;
+  progress.style.background = color;
   navAtags.forEach((a) => {
     a.style.cssText = "color : white";
   });
@@ -71,6 +75,18 @@ function handleControlBar(flag) {
   controls.style.cssText =
     flag === 1 ? "bottom : 0px;display:block;" : "bottom : -40px;";
 }
+
+function handleProgress(){
+  setInterval(() => {
+    let minutes = parseInt(Math.ceil(video.currentTime) / 60, 10);
+    let seconds = Math.round(video.currentTime % 60).toString();
+    seconds = seconds.length === 1? "0"+seconds : seconds === 60? "00": seconds;
+    currentTime.textContent =
+      minutes + ":" + seconds;
+    progress.style.width = (video.currentTime/video.duration) * 100 + "%";
+    // console.log(Math.round(video.currentTime));
+  }, 1000);
+};
 
 function PlayVid() {
   let playPause = document.querySelector(".ctrl-pause-play");
@@ -117,6 +133,7 @@ function renderMainVideo(element) {
     poster: element.Poster,
     width: "100%",
     onclick: "PlayVid()",
+    onplaying:"handleProgress()",
   };
   setAttributes(video, attr);
   attr = {
@@ -125,11 +142,16 @@ function renderMainVideo(element) {
   };
   setAttributes(mainVideo, attr);
   mainVideo.insertBefore(video, mainVideo.childNodes[0]);
-
+  currentTime.textContent = "0:00";
   PlayIcon.setAttribute("onclick", "PlayVid()");
   PlayIcon.style.cssText = "color: " + currentTheme;
   mainVTitle.textContent = element.Title;
   mainVDes.textContent = element.Description;
+  video.onloadedmetadata = ()=>{
+    let minutes = parseInt(video.duration / 60, 10);
+    let seconds = Math.round(video.duration % 60);
+    vidDuration.textContent = minutes + ":" + seconds;
+  }
 }
 
 function renderCarouselImages(element, count, iTag, divTitle, divDes) {
