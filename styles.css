@@ -6,7 +6,7 @@ body {
 video {
     /* border: 2px solid rgba(0,0,0,.7); */
     outline: none;
-    border-radius: 3px;
+    /* border-radius: 3px; */
 }
 
 .flex-container {
