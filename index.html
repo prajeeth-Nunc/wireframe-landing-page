@@ -86,16 +86,22 @@
 
         <div class="main-video pointer">
           <!-- Video Controls START -->
-          <i class="fa fa-play-circle fa-4x play-btn pointer" style="color: dodgerblue;"></i>
+          <i class="fa fa-play-circle fa-4x play-btn pointer"></i>
           <div class="controls">
             <div class="progress-bar">
-              <div class="progress"></div>
+              <span class="progress"></span>
             </div>
-            <div class="ctrls-btns flex-container my-2 mx-2">
-              <i class="fa fa-play show px-2"></i>
-              <i class="fa fa-pause px-2"></i>
+            <div class="ctrls-btns flex-container space-btw m-2">
+              <span>
+                <i class="fa fa-play px-2 ctrl-pause-play" onclick="PlayVid()"></i>
+                <small class="vid-timer"></small>
+              </span>
+              <span>
+                <i class="fa fa-volume-up px-2 ctrl-vol"></i>
+                <i class="fa fa-expand px-2 ctrl-fscreen"></i>
+                <!-- <i class="fa fa-ellipsis-v px-2 "></i> -->
+              </span>
             </div>
-
           </div>
         </div>
         <!-- Video Controls END -->

@@ -13,7 +13,13 @@ let mainVTitle = body.querySelector(".main-vid-title");
 let mainVDes = body.querySelector(".main-vid-des");
 let left = body.querySelector(".carousel-ctrls .left");
 let right = body.querySelector(".carousel-ctrls .right");
+let video = mainVideo.querySelector("video");
+let PlayIcon = mainVideo.querySelector("i");
 let controls = body.querySelector(".controls");
+let volumeCtrl = body.querySelector(".ctrl-vol");
+let Vidtimer = body.querySelector(".vid-timer");
+
+localStorage.setItem("mainVidStatus", 0);
 
 let currentTheme = localStorage.getItem("theme");
 if (currentTheme) changeThemeColor(currentTheme);
@@ -61,21 +67,46 @@ function setAttributes(tag, attrbs) {
   }
 }
 
-function ShowControlBar() {
-  ;
-  controls.style.cssText = "bottom : 0px;visibility:visible";
+function handleControlBar(flag) {
+  controls.style.cssText =
+    flag === 1 ? "bottom : 0px;display:block;" : "bottom : -40px;";
 }
 
-function HideControlBar(){
-  controls.style.cssText = "bottom : -38px;";
+function PlayVid() {
+  let playPause = document.querySelector(".ctrl-pause-play");
+  let flag = parseInt(localStorage.getItem("mainVidStatus"));
+  if (flag === 1) {
+    localStorage.setItem("mainVidStatus", 0);
+    PlayIcon.style.cssText = "visibility:visible; transition: all 0.2s;";
+    video.pause();
+    playPause.classList.remove("fa-pause");
+    playPause.classList.add("fa-play");
+    // console.log(playPause);
+  } else {
+    localStorage.setItem("mainVidStatus", 1);
+    PlayIcon.style.cssText = "visibility:hidden; transition: all 0.2s;";
+    video.play();
+    playPause.classList.remove("fa-play");
+    playPause.classList.add("fa-pause");
+  }
 }
 
-function PlayVid(video){
-  video.play();
+volumeCtrl.addEventListener("click", ctrlVolume);
+
+function ctrlVolume() {
+  let currClasses = Array.from(volumeCtrl.classList);
+  if (currClasses.includes("fa-volume-up")) {
+    volumeCtrl.classList.remove("fa-volume-up");
+    volumeCtrl.classList.add("fa-volume-mute");
+    video.muted = true;
+  } else if (currClasses.includes("fa-volume-mute")) {
+    volumeCtrl.classList.remove("fa-volume-mute");
+    volumeCtrl.classList.add("fa-volume-up");
+    video.muted = false;
+  }
 }
 
 function renderMainVideo(element) {
-  let video = mainVideo.querySelector("video");
   if (video) {
   } else {
     video = document.createElement("video");
@@ -85,14 +116,18 @@ function renderMainVideo(element) {
     src: element.Video,
     poster: element.Poster,
     width: "100%",
-    onmouseover: "ShowControlBar()",
-    onmouseout: "HideControlBar()",
+    onclick: "PlayVid()",
   };
   setAttributes(video, attr);
+  attr = {
+    onmouseover: "handleControlBar(1)",
+    onmouseout: "handleControlBar(0)",
+  };
+  setAttributes(mainVideo, attr);
   mainVideo.insertBefore(video, mainVideo.childNodes[0]);
-  let iTag = mainVideo.querySelector("i");
-  iTag.setAttribute("onclick", "PlayVid(" + video + ")");
-  iTag.style.cssText = "color: " + currentTheme;
+
+  PlayIcon.setAttribute("onclick", "PlayVid()");
+  PlayIcon.style.cssText = "color: " + currentTheme;
   mainVTitle.textContent = element.Title;
   mainVDes.textContent = element.Description;
 }
