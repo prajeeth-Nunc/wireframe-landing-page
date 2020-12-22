@@ -39,9 +39,7 @@ video {
     overflow: hidden;
 }
 
-.main-video .backward,
-.main-video .play-btn,
-.main-video .forward {
+.main-video .play-btn{
     position: absolute;
 }
 
@@ -52,20 +50,6 @@ video {
     transform: translate(-50%, -50%);
     background: white;
     border-radius:50rem!important;
-}
-
-.backward{
-    top: 50%;
-    left: 10%;
-    transform: translate(-10%, -50%);
-    color: white;
-}
-
-.forward{
-    top: 50%;
-    right: 10%;
-    transform: translate(10%, -50%);
-    color: white;
 }
 
 .main-vid-title,.vid-title {

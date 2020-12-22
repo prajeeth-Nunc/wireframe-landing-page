@@ -27,8 +27,6 @@ let playBack = body.querySelector("#playbackspeed");
 // let settings = body.querySelector(".fa-cog");
 // settings.classList.add("fa-rotate-90");
 
-
-
 localStorage.setItem("mainVidStatus", 0);
 
 let currentTheme = localStorage.getItem("theme");
@@ -198,10 +196,18 @@ function handleKeypressEvents(e) {
   }
 }
 
+function handleForwardBackward(flag) {
+  if (flag === 1) {
+    video.currentTime += 5;
+  } else {
+    video.currentTime -= 5;
+  }
+}
+
 playBack.addEventListener("onchange", handlePlayBackSpeed);
 
-function handlePlayBackSpeed(){
-  video.playbackRate = playBack.value
+function handlePlayBackSpeed() {
+  video.playbackRate = playBack.value;
 }
 
 function renderMainVideo(element) {
@@ -371,7 +377,6 @@ function validate(e) {
 }
 
 // Carousel images
-
 left.addEventListener("click", scrollRight);
 right.addEventListener("click", scrollLeft);
 

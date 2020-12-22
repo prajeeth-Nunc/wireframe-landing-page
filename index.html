@@ -85,17 +85,20 @@
       <div class="col-xl-8 col-md-7">
         <div class="main-video pointer border border-secondary">
           <!-- Video Controls START -->
-          <i class="fa fa-undo fa-3x backward"></i>
+          <!-- <i class="fa fa-backward fa-3x"></i> -->
           <i class="fa fa-play-circle fa-4x play-btn pointer"></i>
-          <i class="fa fa-repeat fa-3x forward"></i>
+          <!-- <i class="fa fa-forward fa-3x"></i> -->
 
           <div class="controls">
             <div class="progress-bar bg-dark">
               <span class="progress"></span>
+
             </div>
             <div class="ctrls-btns flex-container space-btw m-2">
               <span class="left-ctrls">
+                <i class="fa fa-backward px-2" onclick="handleForwardBackward(0)"></i>
                 <i class="fa fa-play px-2 ctrl-pause-play" onclick="PlayVid()"></i>
+                <i class="fa fa-forward px-2" onclick="handleForwardBackward(1)"></i>
                 <small class="vid-timer"><span class="cur-time"></span> / <span class="duration"></span></small>
                 <i class="fa fa-volume-up px-2 ctrl-vol"></i>
               </span>

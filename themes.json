@@ -2,26 +2,31 @@
   {
     "id": "1",
     "class": "round mx-2 border border-dark pointer",
-    "bgcolor": "orangered"
+    "bgcolor": "orangered",
+    "color":"white"
   },
   {
     "id": "2",
     "class": "round mx-2 border border-dark pointer",
-    "bgcolor": "DodgerBlue"
+    "bgcolor": "DodgerBlue",
+    "color":"white"
   },
   {
     "id": "3",
     "class": "round mx-2 border border-dark pointer",
-    "bgcolor": "#6c757d"
+    "bgcolor": "#6c757d",
+    "color":"white"
   },
   {
     "id": "4",
     "class": "round mx-2 border border-dark pointer",
-    "bgcolor": "#343a40"
+    "bgcolor": "#343a40",
+    "color":"white"
   },
   {
     "id": "5",
     "class": "round mx-2 border border-dark pointer",
-    "bgcolor": "MediumSlateBlue"
+    "bgcolor": "MediumSlateBlue",
+    "color":"white"
   }
 ]
