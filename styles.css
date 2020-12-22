@@ -89,6 +89,12 @@ video {
     transition: all .8s ease;
 }
 
+.volume-bar{
+    width: 60px;
+    height: 5px;
+    background: black;
+}
+
 .ctrl-pause-play:hover,.fa-expand:hover {
     transform: scale(1.2);
 }

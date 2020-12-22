@@ -24,6 +24,7 @@ let progress = body.querySelector(".progress");
 let progressBar = body.querySelector(".progress-bar");
 let playPause = document.querySelector(".ctrl-pause-play");
 let playBack = body.querySelector("#playbackspeed");
+let videoLoop = body.querySelector(".ctrl-vidloop");
 // let settings = body.querySelector(".fa-cog");
 // settings.classList.add("fa-rotate-90");
 
@@ -204,6 +205,18 @@ function handleForwardBackward(flag) {
   }
 }
 
+videoLoop.addEventListener("click", handleVideoLoop);
+
+function handleVideoLoop() {
+  if (video.loop) {
+    video.loop = false;
+    videoLoop.style.color="white";
+  } else {
+    video.loop = true;
+    videoLoop.style.color = "dodgerblue";
+  }
+}
+
 playBack.addEventListener("onchange", handlePlayBackSpeed);
 
 function handlePlayBackSpeed() {
@@ -270,6 +283,7 @@ function renderCarouselImages(element, count, iTag, divTitle, divDes) {
 
 // Video
 function videoRender(id = null) {
+  progress.style.width = "0%";
   localStorage.setItem("mainVidStatus", 0);
   fetch("videoInfo.json")
     .then((res) => res.json())
