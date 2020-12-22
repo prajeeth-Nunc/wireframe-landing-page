@@ -4,9 +4,7 @@ body {
 }
 
 video {
-    /* border: 2px solid rgba(0,0,0,.7); */
     outline: none;
-    /* border-radius: 3px; */
 }
 
 .flex-container {
@@ -41,6 +39,12 @@ video {
     overflow: hidden;
 }
 
+.main-video .backward,
+.main-video .play-btn,
+.main-video .forward {
+    position: absolute;
+}
+
 .play-btn {
     position: absolute;
     top: 50%;
@@ -48,7 +52,20 @@ video {
     transform: translate(-50%, -50%);
     background: white;
     border-radius:50rem!important;
-    /* color:dodgerblue; */
+}
+
+.backward{
+    top: 50%;
+    left: 10%;
+    transform: translate(-10%, -50%);
+    color: white;
+}
+
+.forward{
+    top: 50%;
+    right: 10%;
+    transform: translate(10%, -50%);
+    color: white;
 }
 
 .main-vid-title,.vid-title {
@@ -213,7 +230,7 @@ form::before{
     position: absolute;
     bottom: 1px;
     right: 0;
-    width: 50%;
+    width: 30%;
     height: 50%;
     background: rgba(0, 0, 0, .2);
     box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, .2);

@@ -14,7 +14,7 @@ let mainVDes = body.querySelector(".main-vid-des");
 let left = body.querySelector(".carousel-ctrls .left");
 let right = body.querySelector(".carousel-ctrls .right");
 let video = mainVideo.querySelector("video");
-let PlayIcon = mainVideo.querySelector("i");
+let PlayIcon = mainVideo.querySelector("i.fa-play-circle");
 let controls = body.querySelector(".controls");
 let volumeCtrl = body.querySelector(".ctrl-vol");
 let ScreenCtrl = body.querySelector(".ctrl-fscreen");
@@ -23,6 +23,11 @@ let vidDuration = body.querySelector(".duration");
 let progress = body.querySelector(".progress");
 let progressBar = body.querySelector(".progress-bar");
 let playPause = document.querySelector(".ctrl-pause-play");
+let playBack = body.querySelector("#playbackspeed");
+// let settings = body.querySelector(".fa-cog");
+// settings.classList.add("fa-rotate-90");
+
+
 
 localStorage.setItem("mainVidStatus", 0);
 
@@ -89,18 +94,27 @@ function getTime(time) {
 function handleProgress() {
   setInterval(() => {
     currentTime.textContent = getTime(video.currentTime);
-    progress.style.width = Math.round(video.currentTime / video.duration * 100) + "%";
+    progress.style.width =
+      Math.round((video.currentTime / video.duration) * 100) + "%";
   }, 1000);
 }
 
 progressBar.addEventListener("click", handlePlayFrmHere);
 
 function handlePlayFrmHere(e) {
-  let position = Math.round(e.offsetX/progressBar.clientWidth * 100);
+  let position = Math.round((e.offsetX / progressBar.clientWidth) * 100);
   console.log(position);
   video.currentTime = (video.duration * position) / 100;
   progress.style.width = position + "%";
 }
+
+// function rotate(status) {
+//   if (status === 1) {
+//     settings.classList.add("fa-rotate-90");
+//   } else {
+//     settings.classList.remove("fa-rotate-90");
+//   }
+// }
 
 function PlayVid() {
   let flag = parseInt(localStorage.getItem("mainVidStatus"));
@@ -166,6 +180,28 @@ function handleVidFinish() {
   console.log("video finished");
   playPause.classList.remove("fa-pause");
   playPause.classList.add("fa-play");
+  localStorage.setItem("mainVidStatus", 0);
+}
+
+document.addEventListener("keydown", handleKeypressEvents);
+
+function handleKeypressEvents(e) {
+  switch (e.keyCode) {
+    case 37:
+      video.currentTime -= 5;
+      break;
+    case 39:
+      video.currentTime += 5;
+      break;
+    default:
+      console.log(e.keyCode);
+  }
+}
+
+playBack.addEventListener("onchange", handlePlayBackSpeed);
+
+function handlePlayBackSpeed(){
+  video.playbackRate = playBack.value
 }
 
 function renderMainVideo(element) {
@@ -277,13 +313,6 @@ function videoRender(id = null) {
 videoRender();
 
 // Form
-const exceptionMsg = {
-  firstname: "Please Enter First Name",
-  lastname: "Please Enter Last Name",
-  email: "Please Enter Email Address",
-  phno: "Please Enter Phone Number",
-};
-
 form.addEventListener("submit", validate);
 
 function validate(e) {
@@ -308,24 +337,36 @@ function validate(e) {
   let phno = phoneInp.value;
   let cmts = commentsInp.value;
 
+  let emailRegex = /^.*[@].*[.].*$/;
+
   if (validators.includes(fstname)) {
     formgroup = firstnameInp.parentElement;
-    small.textContent = exceptionMsg.firstname;
+    small.textContent = "Please Enter First Name";
     formgroup.appendChild(small);
   } else if (validators.includes(lstname)) {
     formgroup = lastnameInp.parentElement;
-    small.textContent = exceptionMsg.lastname;
+    small.textContent = "Please Enter Last Name";
     formgroup.appendChild(small);
   } else if (validators.includes(email)) {
     formgroup = emailInp.parentElement;
-    small.textContent = exceptionMsg.email;
+    small.textContent = "Please Enter Email Address";
     formgroup.appendChild(small);
   } else if (validators.includes(phno)) {
     formgroup = phoneInp.parentElement;
-    small.textContent = exceptionMsg.phno;
+    small.textContent = "Please Enter Phone Number";
+    formgroup.appendChild(small);
+  } else if (phno.length !== 10) {
+    formgroup = phoneInp.parentElement;
+    small.textContent = "Invalid Phone Number.Must be 10 digits";
     formgroup.appendChild(small);
   } else {
-    console.log("Submit form");
+    if (email.match(emailRegex)) {
+      console.log("Submit form");
+    } else {
+      formgroup = emailInp.parentElement;
+      small.textContent = "Invalid Email Address";
+      formgroup.appendChild(small);
+    }
   }
 }
 
