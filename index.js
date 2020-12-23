@@ -1,32 +1,40 @@
 let body = document.querySelector("body");
-let navbar = body.querySelector(".navbar");
-let navAtags = body.querySelectorAll(".navbar a");
-let navLinks = body.querySelectorAll(".nav-link");
-let footer = body.querySelector("footer");
-let submit = body.querySelector("input[type = submit]");
-let themesContainer = body.querySelector(".theme-container");
-let posterContainer = body.querySelector(".Poster-container");
-let form = body.querySelector("form");
-let validators = ["", null, undefined];
-let mainVideo = body.querySelector(".main-video");
-let mainVTitle = body.querySelector(".main-vid-title");
-let mainVDes = body.querySelector(".main-vid-des");
-let left = body.querySelector(".carousel-ctrls .left");
-let right = body.querySelector(".carousel-ctrls .right");
-let video = mainVideo.querySelector("video");
-let PlayIcon = mainVideo.querySelector("i.fa-play-circle");
-let controls = body.querySelector(".controls");
-let volumeCtrl = body.querySelector(".ctrl-vol");
-let ScreenCtrl = body.querySelector(".ctrl-fscreen");
-let currentTime = body.querySelector(".cur-time");
-let vidDuration = body.querySelector(".duration");
-let progress = body.querySelector(".progress");
-let progressBar = body.querySelector(".progress-bar");
-let playPause = document.querySelector(".ctrl-pause-play");
-let playBack = body.querySelector("#playbackspeed");
-let videoLoop = body.querySelector(".ctrl-vidloop");
-let navbarItems = body.querySelector("#navbar-items");
 
+function select(selector){
+  return body.querySelector(selector);
+}
+function selectAll(selector) {
+  return body.querySelectorAll(selector);
+}
+
+let navbar = select(".navbar");
+let navAtags = selectAll(".navbar a");
+let navLinks = selectAll(".nav-link");
+let footer = select("footer");
+let submit = select("input[type = submit]");
+let themesContainer = select(".theme-container");
+let posterContainer = select(".Poster-container");
+let form = select("form");
+let mainVideo = select(".main-video");
+let mainVTitle = select(".main-vid-title");
+let mainVDes = select(".main-vid-des");
+let left = select(".carousel-ctrls .left");
+let right = select(".carousel-ctrls .right");
+let video = select("video");
+let PlayIcon = mainVideo.querySelector("i.fa-play-circle");
+let controls = select(".controls");
+let volumeCtrl = select(".ctrl-vol");
+let ScreenCtrl = select(".ctrl-fscreen");
+let currentTime = select(".cur-time");
+let vidDuration = select(".duration");
+let progress = select(".progress");
+let progressBar = select(".progress-bar");
+let playPause = select(".ctrl-pause-play");
+let playBack = select("#playbackspeed");
+let videoLoop = select(".ctrl-vidloop");
+let navbarItems = select("#navbar-items");
+
+let validators = ["", null, undefined];
 localStorage.setItem("mainVidStatus", 0);
 
 let currentTheme = localStorage.getItem("theme");
@@ -34,8 +42,8 @@ if (currentTheme) changeThemeColor(currentTheme);
 else changeThemeColor("#86C232");
 
 function changeThemeColor(color) {
-  let themeItems = body.querySelectorAll(".theme");
-  let bgThemeItems = body.querySelectorAll(".bg-theme");
+  let themeItems = selectAll(".theme");
+  let bgThemeItems = selectAll(".bg-theme");
   localStorage.setItem("theme", color);
   let defaultStyle = "background: " + color + "; color : white;";
   navAtags.forEach((a) => {
@@ -162,6 +170,7 @@ function ctrlVolume() {
 ScreenCtrl.addEventListener("click", handleFullScreenVid);
 
 function handleFullScreenVid() {
+  console.log(screen.orientation);
   let currClasses = Array.from(ScreenCtrl.classList);
   if (currClasses.includes("fa-expand")) {
     if (mainVideo.requestFullscreen) {
@@ -292,56 +301,60 @@ function renderCarouselImages(element, count, iTag, divTitle, divDes) {
   posterContainer.appendChild(divFlexItem);
 }
 
+fetch("videoInfo.json")
+  .then((res) => res.json())
+  .then((data) => {
+    localStorage.setItem("Posters", JSON.stringify(data));
+  });
+
+
+let iTag = document.createElement("i");
+iTag.setAttribute("class", "fa fa-play-circle fa-3x play-btn pointer theme");
+let divTitle = document.createElement("div");
+divTitle.setAttribute("class", "vid-title my-3 theme");
+let divDes = document.createElement("div");
+divDes.setAttribute("class", "vid-des mb-3 text-secondary");
+
 // Video
 function videoRender(id = null) {
   progress.style.width = "0%";
   localStorage.setItem("mainVidStatus", 0);
-  fetch("videoInfo.json")
-    .then((res) => res.json())
-    .then((data) => {
-      let count = data.lenth;
-      id = id === null ? 1 : id;
-      posterContainer.innerHTML = "";
-      let iTag = document.createElement("i");
-      iTag.setAttribute(
-        "class",
-        "fa fa-play-circle fa-3x play-btn pointer theme"
-      );
-      let divTitle = document.createElement("div");
-      divTitle.setAttribute("class", "vid-title my-3 theme");
-      let divDes = document.createElement("div");
-      divDes.setAttribute("class", "vid-des mb-3 text-secondary");
-      let video = mainVideo.querySelector("video");
+  let Posters = localStorage.getItem("Posters");
+  let data = JSON.parse(Posters);
+  let count = data.lenth;
+  id = id === null ? 1 : id;
+  posterContainer.innerHTML = "";
+  let video = mainVideo.querySelector("video");
 
-      if (video) {
-        const videoId = video.id;
-        let prevVID = data[videoId - 1];
-        data.splice(id - 1, 0, prevVID);
-        if (id - 1 < videoId) {
-          data.splice(videoId, 1);
-        } else {
-          data.splice(videoId - 1, 1);
-        }
-        data.forEach((element) => {
-          if (element.id === id) {
-            renderMainVideo(element);
-          } else {
-            renderCarouselImages(element, count, iTag, divTitle, divDes);
-          }
-        });
+  if (video) {
+    const videoId = video.id;
+    let prevVID = data[videoId - 1];
+    data.splice(id - 1, 0, prevVID);
+    if (id - 1 < videoId) {
+      data.splice(videoId, 1);
+    } else {
+      data.splice(videoId - 1, 1);
+    }
+    localStorage.setItem("id", id);
+    data.forEach((element) => {
+      if (element.id === id) {
+        renderMainVideo(element);
       } else {
-        let mainVID = data.filter((vid) => {
-          return vid.id == id;
-        });
-        data.forEach((element) => {
-          if (element.id === id) {
-            renderMainVideo(mainVID[0]);
-          } else {
-            renderCarouselImages(element, count, iTag, divTitle, divDes);
-          }
-        });
+        renderCarouselImages(element, count, iTag, divTitle, divDes);
       }
     });
+  } else {
+    let mainVID = data.filter((vid) => {
+      return vid.id == id;
+    });
+    data.forEach((element) => {
+      if (element.id === id) {
+        renderMainVideo(mainVID[0]);
+      } else {
+        renderCarouselImages(element, count, iTag, divTitle, divDes);
+      }
+    });
+  }
 }
 
 videoRender();
@@ -407,10 +420,36 @@ function validate(e) {
 // Carousel images
 left.addEventListener("click", scrollRight);
 right.addEventListener("click", scrollLeft);
-
+let itemsPerClick = 3;
+let countLeft = 1;
 function scrollRight() {
-  posterContainer.scrollLeft -= 600;
+  let posters = localStorage.getItem("Posters");
+  let data = JSON.parse(posters);
+  let count = data.lenth;
+  data.forEach((element) => {
+    if (element.id === parseInt(video.id)) {
+    } else {
+      renderCarouselImages(element, count, iTag, divTitle, divDes);
+    }
+  });
+
+  let item = posterContainer.querySelector("div.mr-3");
+  itemWidth = item.clientWidth + 16;
+  posterContainer.scrollLeft -= itemsPerClick * itemWidth;
 }
+
 function scrollLeft() {
-  posterContainer.scrollLeft += 600;
+  let posters = localStorage.getItem("Posters");
+  let data = JSON.parse(posters);
+  let count = data.lenth;
+  data.forEach((element) => {
+    if (element.id === parseInt(video.id)) {
+    } else {
+      renderCarouselImages(element, count, iTag, divTitle, divDes);
+    }
+  });
+
+  let item = posterContainer.querySelector("div.mr-3");
+  itemWidth = item.clientWidth + 16;
+  posterContainer.scrollLeft += itemsPerClick * itemWidth;
 }

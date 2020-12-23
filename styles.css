@@ -225,14 +225,14 @@ video[poster] {
 
     .carousel-ctrls .left {
         top: 14%;
-        left: -3%;
-        transform: translate(-3%, -22%);
+        left: -1.5%;
+        transform: translate(-1.5%, -14%);
     }
 
     .carousel-ctrls .right {
         top: 14%;
-        right: -3%;
-        transform: translate(-3%, -22%);
+        right: -1.5%;
+        transform: translate(-1.5%, -14%);
     }
     .user-details {
         justify-content: center;
@@ -241,6 +241,13 @@ video[poster] {
         min-width: 0px;
         width: 100%;
         margin: 0 auto;
+    }
+}
+
+
+@media (max-width:360px) {
+    .navbar-brand{
+        font-size: 1rem;
     }
 }
 
