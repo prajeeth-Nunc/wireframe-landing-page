@@ -1,9 +1,9 @@
 let body = document.querySelector("body");
 let navbar = body.querySelector(".navbar");
 let navAtags = body.querySelectorAll(".navbar a");
+let navLinks = body.querySelectorAll(".nav-link");
 let footer = body.querySelector("footer");
 let submit = body.querySelector("input[type = submit]");
-let themeItems = body.querySelectorAll(".theme");
 let themesContainer = body.querySelector(".theme-container");
 let posterContainer = body.querySelector(".Poster-container");
 let form = body.querySelector("form");
@@ -25,31 +25,27 @@ let progressBar = body.querySelector(".progress-bar");
 let playPause = document.querySelector(".ctrl-pause-play");
 let playBack = body.querySelector("#playbackspeed");
 let videoLoop = body.querySelector(".ctrl-vidloop");
-// let settings = body.querySelector(".fa-cog");
-// settings.classList.add("fa-rotate-90");
+let navbarItems = body.querySelector("#navbar-items");
 
 localStorage.setItem("mainVidStatus", 0);
 
 let currentTheme = localStorage.getItem("theme");
 if (currentTheme) changeThemeColor(currentTheme);
-else changeThemeColor("dodgerblue");
+else changeThemeColor("#86C232");
 
 function changeThemeColor(color) {
+  let themeItems = body.querySelectorAll(".theme");
+  let bgThemeItems = body.querySelectorAll(".bg-theme");
   localStorage.setItem("theme", color);
-  // let iTag = mainVideo.querySelector("i");
-  // if (iTag) {
-  //   iTag.style.cssText = "color: " + color;
-  // }
   let defaultStyle = "background: " + color + "; color : white;";
-  navbar.style.cssText = defaultStyle;
-  footer.style.cssText = defaultStyle;
-  submit.style.cssText = defaultStyle;
-  progress.style.background = color;
   navAtags.forEach((a) => {
     a.style.cssText = "color : white";
   });
   themeItems.forEach((item) => {
     item.style.color = color;
+  });
+  bgThemeItems.forEach((item) => {
+    item.style.cssText = defaultStyle;
   });
 }
 
@@ -70,6 +66,29 @@ fetch("themes.json")
       themesContainer.appendChild(aTag);
     });
   });
+
+function handleNavInMob() {
+  let currClasses = Array.from(navbarItems.classList);
+  if (currClasses.includes("collapse")) {
+    navbarItems.classList.remove("collapse");
+  } else {
+    navbarItems.classList.add("collapse");
+  }
+}
+
+navLinks.forEach((link) => {
+  let attr = {
+    onclick: "setNavLinkActive(this)",
+  };
+  setAttributes(link, attr);
+});
+
+function setNavLinkActive(link) {
+  navLinks.forEach((navlink) => {
+    navlink.classList.remove("active");
+  });
+  link.classList.add("active");
+}
 
 function setAttributes(tag, attrbs) {
   for (let prop in attrbs) {
@@ -106,14 +125,6 @@ function handlePlayFrmHere(e) {
   video.currentTime = (video.duration * position) / 100;
   progress.style.width = position + "%";
 }
-
-// function rotate(status) {
-//   if (status === 1) {
-//     settings.classList.add("fa-rotate-90");
-//   } else {
-//     settings.classList.remove("fa-rotate-90");
-//   }
-// }
 
 function PlayVid() {
   let flag = parseInt(localStorage.getItem("mainVidStatus"));
@@ -210,7 +221,7 @@ videoLoop.addEventListener("click", handleVideoLoop);
 function handleVideoLoop() {
   if (video.loop) {
     video.loop = false;
-    videoLoop.style.color="white";
+    videoLoop.style.color = "white";
   } else {
     video.loop = true;
     videoLoop.style.color = "dodgerblue";
@@ -292,7 +303,10 @@ function videoRender(id = null) {
       id = id === null ? 1 : id;
       posterContainer.innerHTML = "";
       let iTag = document.createElement("i");
-      iTag.setAttribute("class", "fa fa-play-circle fa-2x play-btn pointer");
+      iTag.setAttribute(
+        "class",
+        "fa fa-play-circle fa-3x play-btn pointer theme"
+      );
       let divTitle = document.createElement("div");
       divTitle.setAttribute("class", "vid-title my-3 theme");
       let divDes = document.createElement("div");
